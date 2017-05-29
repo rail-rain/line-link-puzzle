@@ -2,6 +2,7 @@ package com.mygdx.game
 
 import java.util.Random
 
+import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.physics.box2d.World
@@ -12,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.QueryCallback
+import ktx.math.*
 
 enum class PieceType {
   ONE, TWO, THREE, FOUR;
@@ -28,7 +30,7 @@ class Pieces(val camera: OrthographicCamera, val world: World) {
   private val PIECE_SIZE = 2
 
   var bodies: ArrayList<Body> = ArrayList()
-  var selectedPieces: ArrayList<Body> = ArrayList()
+  var selectedPieces: Array<Body> = Array()
 
   init {
   	val bodyDef = BodyDef()
@@ -56,11 +58,20 @@ class Pieces(val camera: OrthographicCamera, val world: World) {
     world.QueryAABB(object: QueryCallback {
       override fun reportFixture(piece: Fixture): Boolean {
         if (!piece.testPoint(selectPoint.x, selectPoint.y)) return true
-        if (selectedPieces.isNotEmpty() && piece.getBody().getUserData() != selectedPieces[0].getUserData()) return false
 
-        if (!selectedPieces.contains(piece.getBody())) {
-          selectedPieces.add(piece.getBody())
+        if (selectedPieces.contains(piece.getBody())) {
+          if (selectedPieces.peek() != piece.getBody()) {
+            selectedPieces.pop()
+          }
+          return false
         }
+        if (selectedPieces.size != 0
+          && (piece.getBody().getUserData() != selectedPieces[0].getUserData()
+          || piece.getBody().getPosition().dst(selectedPieces.peek().getPosition()) > 3)) {
+            return false
+        }
+
+        selectedPieces.add(piece.getBody())
         return false
       }
     }, selectPoint.x, selectPoint.y, selectPoint.x, selectPoint.y)
