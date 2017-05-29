@@ -56,22 +56,23 @@ class Pieces(val camera: OrthographicCamera, val world: World) {
 
   fun selectPiece(selectPoint: Vector3) {
     world.QueryAABB(object: QueryCallback {
-      override fun reportFixture(piece: Fixture): Boolean {
-        if (!piece.testPoint(selectPoint.x, selectPoint.y)) return true
+      override fun reportFixture(pieceFixture: Fixture): Boolean {
+        if (!pieceFixture.testPoint(selectPoint.x, selectPoint.y)) return true
+        val piece = pieceFixture.getBody()
 
-        if (selectedPieces.contains(piece.getBody())) {
-          if (selectedPieces.peek() != piece.getBody()) {
+        if (selectedPieces.contains(piece)) {
+          if (selectedPieces.peek() != piece) {
             selectedPieces.pop()
           }
           return false
         }
         if (selectedPieces.size != 0
-          && (piece.getBody().getUserData() != selectedPieces[0].getUserData()
-          || piece.getBody().getPosition().dst(selectedPieces.peek().getPosition()) > 3)) {
+          && (piece.getUserData() != selectedPieces[0].getUserData()
+          || piece.position.dst(selectedPieces.peek().position) > 3)) {
             return false
         }
 
-        selectedPieces.add(piece.getBody())
+        selectedPieces.add(piece)
         return false
       }
     }, selectPoint.x, selectPoint.y, selectPoint.x, selectPoint.y)
