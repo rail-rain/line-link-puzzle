@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.ChainShape
+import ktx.box2d.*
 
 class MyGdxGame : ApplicationAdapter(), InputProcessor {
 	private lateinit var camera: OrthographicCamera
@@ -74,18 +75,15 @@ class MyGdxGame : ApplicationAdapter(), InputProcessor {
 	}
 
 	private fun createGround() {
-		val bodyDef = BodyDef()
-		val body = world.createBody(bodyDef)
-		val groundShape = ChainShape()
-		groundShape.createChain(arrayOf(
-			Vector2(0f, camera.viewportHeight),
-			Vector2(0f, camera.viewportHeight / 10),
-			Vector2(camera.viewportWidth / 2, 0f),
-			Vector2(camera.viewportWidth, camera.viewportHeight / 10),
-			Vector2(camera.viewportWidth, camera.viewportHeight)
-			))
-		body.createFixture(groundShape, 0f)
-		groundShape.dispose()
+		world.body {
+			chain(
+				Vector2(0f, camera.viewportHeight),
+				Vector2(0f, camera.viewportHeight / 10),
+				Vector2(camera.viewportWidth / 2, 0f),
+				Vector2(camera.viewportWidth, camera.viewportHeight / 10),
+				Vector2(camera.viewportWidth, camera.viewportHeight)
+			) {}
+		}
 	}
 
 	private var testPoint = Vector3()
