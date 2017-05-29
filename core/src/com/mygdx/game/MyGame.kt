@@ -30,7 +30,7 @@ class MyGdxGame : ApplicationAdapter(), InputProcessor {
 		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0f)
 
 		Box2D.init()
-		world = World(Vector2(0f, -9.81f), true)
+		world = World(Vector2(0f, -9.81f), false)
 
 		debugRenderer = Box2DDebugRenderer()
 
