@@ -17,16 +17,8 @@ enum class PieceType {
   ONE, TWO, THREE, FOUR;
 
   companion object {
-    fun random(): PieceType {
-      val rand = Random()
-      return when(rand.nextInt(4)) {
-        0 -> ONE
-        1 -> TWO
-        2 -> THREE
-        3 -> FOUR
-        else -> ONE
-      }
-    }
+    val rand = Random()
+    fun random() = enumValues<PieceType>()[rand.nextInt(4)]
   }
 }
 
