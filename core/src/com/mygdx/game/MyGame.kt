@@ -53,6 +53,7 @@ class MyGdxGame : ApplicationAdapter(), InputProcessor {
 				PieceType.TWO -> renderer.setColor(0f, 1.0f, 0f, 0f)
 				PieceType.THREE -> renderer.setColor(0f, 0f, 1.0f, 0f)
 				PieceType.FOUR -> renderer.setColor(1.0f, 1.0f, 0f, 0f)
+				PieceType.FIVE -> renderer.setColor(1.0f, 0.0f, 1.0f, 0f)
 			}
 			val position = body.getPosition()
 			renderer.circle(position.x, position.y, 1f)

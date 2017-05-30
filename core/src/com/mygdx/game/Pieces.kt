@@ -15,11 +15,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef
 import com.badlogic.gdx.physics.box2d.QueryCallback
 
 enum class PieceType {
-  ONE, TWO, THREE, FOUR;
+  ONE, TWO, THREE, FOUR, FIVE;
 
   companion object {
     val rand = Random()
-    fun random() = enumValues<PieceType>()[rand.nextInt(4)]
+    fun random() = enumValues<PieceType>()[rand.nextInt(5)]
   }
 }
 
