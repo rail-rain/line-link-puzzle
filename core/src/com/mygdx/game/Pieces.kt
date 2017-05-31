@@ -24,7 +24,7 @@ enum class PieceType {
 }
 
 class Pieces(val camera: OrthographicCamera, val world: World) {
-  private val MAX_BALL = 30
+  private val MAX_BALL = 45
   private val PIECE_RADIUS = 1f
   private val PIECE_SIZE = 2
 
