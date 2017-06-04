@@ -1,30 +1,21 @@
 package com.mygdx.game
 
-import java.util.ArrayList
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ApplicationAdapter
-import com.badlogic.gdx.Input
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import com.badlogic.gdx.physics.box2d.Box2D
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
-import com.badlogic.gdx.physics.box2d.Body
-import com.badlogic.gdx.physics.box2d.BodyDef
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
-import com.badlogic.gdx.physics.box2d.ChainShape
-import ktx.box2d.*
+import ktx.inject.Context
 
-class MyGdxGame : ApplicationAdapter(), InputProcessor {
+class MyGdxGame : ApplicationAdapter() {
 	private lateinit var camera: OrthographicCamera
 	private lateinit var world: World
-	private lateinit var debugRenderer: Box2DDebugRenderer
-	private lateinit var pieces: Pieces
+	private lateinit var state: State
+	private lateinit var context: Context
 
 	override fun create() {
 		camera = OrthographicCamera(11.5f, 20.5f)
@@ -33,12 +24,23 @@ class MyGdxGame : ApplicationAdapter(), InputProcessor {
 		Box2D.init()
 		world = World(Vector2(0f, -9.81f), false)
 
-		debugRenderer = Box2DDebugRenderer()
+		context = Context()
 
-		Gdx.input.setInputProcessor(this)
+        state = State()
+        val model = Model(context)
+        val intent = Intent(context)
 
-		createGround()
-		pieces = Pieces(camera, world)
+        context.register {
+            bindSingleton(camera)
+            bindSingleton(world)
+            bindSingleton(state)
+            bindSingleton(model)
+        }
+
+		Gdx.input.inputProcessor = intent
+
+		model.createGround()
+        model.createPiece(context)
 	}
 
 	override fun render() {
@@ -47,20 +49,20 @@ class MyGdxGame : ApplicationAdapter(), InputProcessor {
 		val renderer = ShapeRenderer(500)
 		renderer.setProjectionMatrix(camera.combined)
 		renderer.begin(ShapeType.Line)
-		for (body in pieces.bodies) {
-			when (body.getUserData()) {
-				PieceType.ONE -> renderer.setColor(1.0f, 0f, 0f, 0f)
-				PieceType.TWO -> renderer.setColor(0f, 1.0f, 0f, 0f)
-				PieceType.THREE -> renderer.setColor(0f, 0f, 1.0f, 0f)
-				PieceType.FOUR -> renderer.setColor(1.0f, 1.0f, 0f, 0f)
-				PieceType.FIVE -> renderer.setColor(1.0f, 0.0f, 1.0f, 0f)
+		for (body in state.pieces) {
+			when (body.userData) {
+				TypeOfPiece.ONE -> renderer.setColor(1.0f, 0f, 0f, 0f)
+				TypeOfPiece.TWO -> renderer.setColor(0f, 1.0f, 0f, 0f)
+				TypeOfPiece.THREE -> renderer.setColor(0f, 0f, 1.0f, 0f)
+				TypeOfPiece.FOUR -> renderer.setColor(1.0f, 1.0f, 0f, 0f)
+				TypeOfPiece.FIVE -> renderer.setColor(1.0f, 0.0f, 1.0f, 0f)
 			}
 			val position = body.getPosition()
 			renderer.circle(position.x, position.y, 1f)
 		}
 		renderer.setColor(1f, 1f, 1f, 1f)
 		var prevPos: Vector2? = null
-		for (body in pieces.selectedPieces) {
+		for (body in state.selectedPieces) {
 			val pos = body.getPosition()
 			if (prevPos != null) {
 				renderer.line(prevPos.x, prevPos.y, pos.x, pos.y)
@@ -68,62 +70,9 @@ class MyGdxGame : ApplicationAdapter(), InputProcessor {
 			prevPos = pos
 		}
 		renderer.end()
-		/*debugRenderer.render(world, camera.combined)*/
 		world.step(1/60f, 6, 2)
 	}
 
 	override fun dispose() {
-	}
-
-	private fun createGround() {
-		world.body {
-			chain(
-				Vector2(0f, camera.viewportHeight),
-				Vector2(0f, camera.viewportHeight / 10),
-				Vector2(camera.viewportWidth / 2, 0f),
-				Vector2(camera.viewportWidth, camera.viewportHeight / 10),
-				Vector2(camera.viewportWidth, camera.viewportHeight)
-			) {}
-		}
-	}
-
-	private var testPoint = Vector3()
-
-	override fun touchDown (screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-		if (button != Input.Buttons.LEFT || pointer > 0) return false
-		camera.unproject(testPoint.set(screenX.toFloat(), screenY.toFloat(), 0f))
-		return true
-	}
-
-	override fun touchDragged (screenX: Int, screenY: Int, pointer: Int): Boolean {
-		camera.unproject(testPoint.set(screenX.toFloat(), screenY.toFloat(), 0f))
-		pieces.selectPiece(testPoint)
-		return true
-	}
-
-	override fun touchUp (screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-		if (button != Input.Buttons.LEFT || pointer > 0) return false
-		pieces.endSelectingPieces()
-		return true
-	}
-
-	override fun mouseMoved (screenX: Int, screenY: Int): Boolean {
-		return false
-	}
-
-	override fun keyDown (keycode: Int): Boolean {
-		return false
-	}
-
-	override fun keyUp (keycode: Int): Boolean {
-		return false
-	}
-
-	override fun keyTyped (character: Char): Boolean {
-		return false
-	}
-
-	override fun scrolled (amount: Int): Boolean {
-		return false
 	}
 }
