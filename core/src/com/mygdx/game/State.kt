@@ -6,5 +6,5 @@ import com.badlogic.gdx.utils.Array
 data class State(
         val pieces: ArrayList<Body> = ArrayList(),
         val selectedPieces: Array<Body> = Array(),
-        val score: Int = 0
+        val score: Score = Score()
 )

@@ -10,14 +10,15 @@ import com.badlogic.gdx.physics.box2d.World
 import ktx.inject.Context
 import ktx.box2d.*
 
-private const val MAX_BALL = 45
-private const val PIECE_SIZE = 2
-private const val PIECE_RADIUS = 1f
-
 class Model(context: Context) {
+    private val MAX_BALL = 45
+    private val PIECE_SIZE = 2
+    private val PIECE_RADIUS = 1f
+
     val camera by lazy { context.inject<OrthographicCamera>() }
     val world by lazy { context.inject<World>() }
     val selectedPieces by lazy { context.inject<State>().selectedPieces }
+    private val score by lazy { context.inject<State>().score }
 
     fun createPiece(context: Context) {
         val state = context.inject<State>()
@@ -73,6 +74,7 @@ class Model(context: Context) {
     }
 
     fun endSelectingPieces() {
+        score.increaseScore(selectedPieces.size)
         if (selectedPieces.size >= 3) {
             for ((index, body) in selectedPieces.withIndex()) {
                 body.userData = TypeOfPiece.choose()
