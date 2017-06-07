@@ -1,4 +1,4 @@
-package com.mygdx.game
+package com.mygdx.game.game
 
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2

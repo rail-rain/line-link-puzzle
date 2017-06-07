@@ -1,4 +1,4 @@
-package com.mygdx.game
+package com.mygdx.game.game
 
 class Score {
     var current: Int = 0
