@@ -1,4 +1,4 @@
-package com.example.name.mygame
+package com.example.name.mygame.game
 
 import org.jbox2d.collision.AABB
 import org.jbox2d.collision.shapes.ChainShape

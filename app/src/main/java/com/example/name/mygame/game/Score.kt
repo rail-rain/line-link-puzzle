@@ -1,4 +1,4 @@
-package com.example.name.mygame
+package com.example.name.mygame.game
 
 object Score{
     var current: Int = 0

@@ -1,4 +1,4 @@
-package com.example.name.mygame
+package com.example.name.mygame.game
 
 enum class TypeOfPiece {
     ONE, TWO, THREE, FOUR, FIVE;

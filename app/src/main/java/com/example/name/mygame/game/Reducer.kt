@@ -1,4 +1,4 @@
-package com.example.name.mygame
+package com.example.name.mygame.game
 
 import android.view.MotionEvent
 import android.view.View
