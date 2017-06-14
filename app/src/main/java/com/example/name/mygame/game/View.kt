@@ -1,10 +1,7 @@
 package com.example.name.mygame.game
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.view.View
 import com.example.name.mygame.R
 
@@ -13,10 +10,11 @@ class View(context: Context): View(context) {
     val paint = Paint()
     val scale = 48 * resources.displayMetrics.density
     val piece_radius = resources.getDimension(R.dimen.radius)
+    val score_size = resources.getDimension(R.dimen.score)
 
     init {
         paint.strokeWidth = 10f
-        paint.textSize = 100f
+        paint.textAlign = Paint.Align.RIGHT
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -43,6 +41,7 @@ class View(context: Context): View(context) {
             }
         }
         canvas.drawPath(path, paint)
-        canvas.drawText(Score.current.toString(), 100f, 100f, paint)
+        paint.textSize = score_size
+        canvas.drawText(Score.current.toString(), canvas.width * 0.9f, 100f, paint)
     }
 }
