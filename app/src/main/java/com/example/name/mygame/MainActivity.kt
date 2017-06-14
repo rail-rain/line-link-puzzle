@@ -1,28 +1,26 @@
 package com.example.name.mygame
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
-import kotlin.concurrent.timer
+import com.example.name.mygame.game.GameActivity
+import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val view = View(this)
-        view.setOnTouchListener(Reducer)
-        setContentView(view)
-
-        val handler = object: Handler() {
-            override fun handleMessage(msg: Message) {
-                view.invalidate()
+        verticalLayout {
+            button("start") {
+                setOnClickListener {
+                    val intent = Intent(application, GameActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
-        timer(period = 33) {
-            Reducer.update()
-            handler.sendMessage(Message.obtain())
-        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
