@@ -1,9 +1,14 @@
 package com.example.name.mygame.game
 
-object Score{
-    var current: Int = 0
+interface Score {
+    var current: Int
+    fun increaseScore(deletedPieces: Int)
+}
 
-    fun increaseScore(deletedPieces: Int) {
+class ScoreImpl: Score {
+    override var current: Int = 0
+
+    override fun increaseScore(deletedPieces: Int) {
         current += deletedPieces * deletedPieces
     }
 }

@@ -8,15 +8,25 @@ import org.jbox2d.common.Vec2
 import org.jbox2d.dynamics.*
 import java.util.*
 
-object GameSpace {
-    private const val MAX_PIECE = 45
-    private const val PIECE_SIZE= 1f
-    private const val SPACE_WIDTH = 8.5f
-    private const val SPACE_HEIGHT = 10f
+interface GameSpace {
+    val pieces: Array<Body>
+    val selectedPieces: Collection<Body>
+
+    fun selectPiece(selectedX: Float, selectedY: Float)
+    fun endSelectingPieces(): Boolean
+    fun step()
+}
+
+private const val MAX_PIECE = 45
+private const val PIECE_SIZE= 1f
+private const val SPACE_WIDTH = 8.5f
+private const val SPACE_HEIGHT = 10f
+
+class GameSpaceImpl: GameSpace {
 
     private val world = World(Vec2(0f, 9.8f))
-    val pieces: Array<Body>
-    val selectedPieces = ArrayDeque<Body>()
+    override val pieces: Array<Body>
+    override val selectedPieces = ArrayDeque<Body>()
 
     init {
         createGround()
@@ -31,7 +41,7 @@ object GameSpace {
         })
     }
 
-    fun selectPiece(selectedX: Float, selectedY: Float) {
+    override fun selectPiece(selectedX: Float, selectedY: Float) {
         val selectedPoint = Vec2(selectedX, selectedY)
         world.queryAABB(fun(pieceFixture): Boolean {
             if (!pieceFixture.testPoint(selectedPoint)) return true
@@ -54,7 +64,7 @@ object GameSpace {
         }, AABB(selectedPoint, selectedPoint))
     }
 
-    fun endSelectingPieces(): Boolean {
+    override fun endSelectingPieces(): Boolean {
         val isDeleted = if (selectedPieces.size >= 3) {
             for ((index, body) in selectedPieces.withIndex()) {
                 body.userData = TypeOfPiece.pickupNext()
@@ -68,7 +78,7 @@ object GameSpace {
         return isDeleted
     }
 
-    fun step() {
+    override fun step() {
         world.step(1 / 30f, 6, 2)
     }
 

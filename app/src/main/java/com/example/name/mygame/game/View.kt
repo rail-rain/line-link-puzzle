@@ -4,8 +4,10 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import com.example.name.mygame.R
+import javax.inject.Inject
 
-class View(context: Context): View(context) {
+class View
+@Inject constructor(val gameSpace: GameSpace, val score: Score, context: Context): View(context) {
 
     val paint = Paint()
     val scale = 48 * resources.displayMetrics.density
@@ -20,7 +22,7 @@ class View(context: Context): View(context) {
     override fun onDraw(canvas: Canvas) {
         canvas.drawRGB(0, 0, 0)
         paint.style = Paint.Style.FILL
-        for (body in GameSpace.pieces) {
+        for (body in gameSpace.pieces) {
             when (body.userData) {
                 TypeOfPiece.ONE -> paint.color = Color.rgb(255, 0, 0)
                 TypeOfPiece.TWO -> paint.color = Color.rgb(0, 255, 0)
@@ -33,7 +35,7 @@ class View(context: Context): View(context) {
         paint.color = Color.rgb(255, 255, 255)
         paint.style = Paint.Style.STROKE
         val path = Path()
-        for ((index, body) in GameSpace.selectedPieces.withIndex()) {
+        for ((index, body) in gameSpace.selectedPieces.withIndex()) {
             if (index == 0) {
                 path.moveTo(body.position.x * scale, body.position.y * scale)
             } else {
@@ -42,6 +44,6 @@ class View(context: Context): View(context) {
         }
         canvas.drawPath(path, paint)
         paint.textSize = score_size
-        canvas.drawText(Score.current.toString(), canvas.width * 0.9f, 100f, paint)
+        canvas.drawText(score.current.toString(), canvas.width * 0.9f, 100f, paint)
     }
 }

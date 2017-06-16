@@ -2,40 +2,36 @@ package com.example.name.mygame.game
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledFuture
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class GameActivity : AppCompatActivity() {
 
-    private val game_loop = Executors.newSingleThreadScheduledExecutor()
-    private var game_loop_future: ScheduledFuture<*>? = null
-    private lateinit var view: View
+    @Inject lateinit var view: View
+    @Inject lateinit var viewModel: ViewModel
+    @Inject lateinit var lifecycleobserver: LifeCycleObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        view = View(this)
-        view.setOnTouchListener(Reducer)
+        val applicationComponent = DaggerGameComponent.builder()
+                .gameModule(GameModule(this))
+                .build()
+        applicationComponent.inject(this)
+        viewModel.addObserver({ o, arg -> view.postInvalidate() })
         setContentView(view)
     }
 
     override fun onResume() {
         super.onResume()
-        game_loop_future = game_loop.scheduleAtFixedRate({
-            Reducer.update()
-            view.postInvalidate()
-        }, 0, 33, TimeUnit.MILLISECONDS)
+        lifecycleobserver.resume()
     }
 
     override fun onPause() {
         super.onPause()
-        game_loop_future!!.cancel(true)
+        lifecycleobserver.pause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        game_loop.shutdown()
+        lifecycleobserver.destroy()
     }
 }
