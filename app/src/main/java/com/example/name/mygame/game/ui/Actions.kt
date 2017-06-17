@@ -1,4 +1,4 @@
-package com.example.name.mygame.game
+package com.example.name.mygame.game.ui
 
 interface Actions {
     fun selectPiece(selectedX: Float, selectedY: Float)

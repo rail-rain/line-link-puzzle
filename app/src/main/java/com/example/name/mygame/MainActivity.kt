@@ -3,7 +3,7 @@ package com.example.name.mygame
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.name.mygame.game.GameActivity
+import com.example.name.mygame.game.Game
 import org.jetbrains.anko.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         verticalLayout {
             button("start") {
                 setOnClickListener {
-                    val intent = Intent(application, GameActivity::class.java)
+                    val intent = Intent(application, Game::class.java)
                     startActivity(intent)
                 }
             }
