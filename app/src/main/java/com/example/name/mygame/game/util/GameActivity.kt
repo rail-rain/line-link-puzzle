@@ -6,14 +6,23 @@ import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
-abstract class GameActivity(fps: Long): AppCompatActivity() {
+abstract class GameActivity<T>(fps: Long): AppCompatActivity() {
     private val executor = Executors.newSingleThreadScheduledExecutor()
     private var future: ScheduledFuture<*>? = null
     private val period = 1000 / fps
 
     private lateinit var view: View
+    protected abstract val system: System<T>
 
-    protected abstract fun update()
+    protected abstract fun transit(transition: T)
+
+    fun update() {
+        if (system.transition != null) {
+            transit(system.transition as T)
+        }
+        system.update()
+        view.postInvalidate()
+    }
 
     override fun setContentView(view: View) {
         super.setContentView(view)
@@ -22,10 +31,7 @@ abstract class GameActivity(fps: Long): AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        future = executor.scheduleAtFixedRate({
-            update()
-            view.postInvalidate()
-        }, 0, period, TimeUnit.MILLISECONDS)
+        future = executor.scheduleAtFixedRate({ this.update() }, 0, period, TimeUnit.MILLISECONDS)
     }
 
     override fun onPause() {
