@@ -19,7 +19,7 @@ class GameSystem: System<Transition> {
         if (gameSpace.endSelectingPieces()) {
             score.increaseScore(size)
             counter.move()
-            if (counter.isEnd()) transition = Transition.Quit
+            if (counter.isEnd()) transition = Transition.End(getScore())
         }
     }
 
