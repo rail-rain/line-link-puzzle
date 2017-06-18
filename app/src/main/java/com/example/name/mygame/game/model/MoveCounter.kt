@@ -6,5 +6,5 @@ class MoveCounter {
     fun move() {
         count--
     }
-    fun isEnd() = count != 0
+    fun isEnd() = count == 0
 }
