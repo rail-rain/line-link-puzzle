@@ -11,6 +11,7 @@ class View(context: Context, val state: State): View(context) {
     val paint = Paint()
     val piece_radius = resources.getDimension(R.dimen.radius)
     val score_size = resources.getDimension(R.dimen.score)
+    val path = Path()
 
     init {
         paint.strokeWidth = 10f
@@ -32,7 +33,6 @@ class View(context: Context, val state: State): View(context) {
         }
         paint.color = Color.rgb(255, 255, 255)
         paint.style = Paint.Style.STROKE
-        val path = Path()
         for ((index, body) in state.getSelectedPieces().withIndex()) {
             if (index == 0) {
                 path.moveTo(body.positionX, body.positionY)
@@ -41,6 +41,7 @@ class View(context: Context, val state: State): View(context) {
             }
         }
         canvas.drawPath(path, paint)
+        path.rewind()
         paint.textSize = score_size
         canvas.drawText(state.getScore(), canvas.width * 0.9f, 100f, paint)
         canvas.drawText(state.getCount(), canvas.width * 0.2f, 100f, paint)
