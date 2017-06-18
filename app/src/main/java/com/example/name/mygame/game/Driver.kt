@@ -19,6 +19,7 @@ class Driver(context: Context, val system: GameSystem): Actions, State {
     }
 
     override fun getScore() = system.getScore().toString()
+    override fun getCount() = system.getCount().toString()
 
     override fun getPieces() = system.getPieces().map {
         Piece(it.position.x * scale * 48, it.position.y * scale * 48, it.userData as TypeOfPiece)

@@ -28,6 +28,7 @@ class GameSystem: System<Transition> {
     }
 
     fun getScore() = score.current
+    fun getCount() = counter.count
     fun getPieces() = gameSpace.pieces
     fun getSelectedPieces() = gameSpace.selectedPieces
 }
