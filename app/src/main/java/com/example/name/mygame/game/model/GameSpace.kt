@@ -46,7 +46,7 @@ class GameSpace {
             }
             if (selectedPieces.size != 0 &&
                     (piece.userData != selectedPieces.last.userData
-                    || MathUtils.distance(piece.position, selectedPieces.first().position) > 3)) {
+                    || MathUtils.distance(piece.position, selectedPieces.first().position) > 1.5)) {
                 return false
             }
 
