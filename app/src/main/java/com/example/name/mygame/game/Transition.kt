@@ -1,5 +1,6 @@
 package com.example.name.mygame.game
 
-enum class Transition {
-    Quit
+sealed class Transition {
+    class End(val finalScore: Int): Transition()
+    object Quit: Transition()
 }
