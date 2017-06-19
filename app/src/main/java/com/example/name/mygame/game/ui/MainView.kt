@@ -7,7 +7,7 @@ import com.example.name.mygame.R
 import com.example.name.mygame.game.model.TypeOfPiece
 import com.example.name.mygame.game.viewmodel.State
 
-class View(context: Context, val state: State): View(context) {
+class MainView(context: Context, val state: State): View(context) {
 
     val paint = Paint()
     val piece_radius = resources.getDimension(R.dimen.radius)

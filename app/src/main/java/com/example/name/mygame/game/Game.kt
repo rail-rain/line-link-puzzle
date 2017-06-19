@@ -5,8 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import com.example.name.mygame.game.model.GameSystem
 import com.example.name.mygame.game.util.GameActivity
-import com.example.name.mygame.game.ui.View
+import com.example.name.mygame.game.ui.MainView
 import com.example.name.mygame.game.ui.InputProcessor
+import com.example.name.mygame.game.viewmodel.Driver
 
 class Game : GameActivity<Transition>(fps = 30) {
     companion object {
@@ -17,10 +18,9 @@ class Game : GameActivity<Transition>(fps = 30) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val driver = Driver(this, system)
-        mainView = View(this, driver)
+        mainView = MainView(this, driver)
         val inputProcessor = InputProcessor(driver)
         mainView.setOnTouchListener(inputProcessor)
-        setContentView(mainView)
     }
 
     override fun transit(transition: Transition) {
