@@ -5,6 +5,7 @@ import android.graphics.*
 import android.view.View
 import com.example.name.mygame.R
 import com.example.name.mygame.game.model.TypeOfPiece
+import com.example.name.mygame.game.viewmodel.State
 
 class View(context: Context, val state: State): View(context) {
 

@@ -1,4 +1,4 @@
-package com.example.name.mygame.game.ui
+package com.example.name.mygame.game.viewmodel
 
 interface State {
     fun getScore(): String

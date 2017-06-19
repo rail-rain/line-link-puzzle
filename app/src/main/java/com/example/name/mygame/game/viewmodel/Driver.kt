@@ -1,11 +1,8 @@
-package com.example.name.mygame.game
+package com.example.name.mygame.game.viewmodel
 
 import android.content.Context
 import com.example.name.mygame.game.model.GameSystem
 import com.example.name.mygame.game.model.TypeOfPiece
-import com.example.name.mygame.game.ui.Piece
-import com.example.name.mygame.game.ui.State
-import com.example.name.mygame.game.ui.Actions
 
 class Driver(context: Context, val system: GameSystem): Actions, State {
     private val scale = context.resources.displayMetrics.density

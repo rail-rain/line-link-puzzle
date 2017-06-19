@@ -2,6 +2,7 @@ package com.example.name.mygame.game.ui
 
 import android.view.MotionEvent
 import android.view.View
+import com.example.name.mygame.game.viewmodel.Actions
 
 
 class InputProcessor(private val dispatcher: Actions): View.OnTouchListener {
