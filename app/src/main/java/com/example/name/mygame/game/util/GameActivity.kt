@@ -11,7 +11,7 @@ abstract class GameActivity<T>(fps: Long): AppCompatActivity() {
     private var future: ScheduledFuture<*>? = null
     private val period = 1000 / fps
 
-    private lateinit var view: View
+    protected lateinit var mainView: View
     protected abstract val system: System<T>
 
     protected abstract fun transit(transition: T)
@@ -21,12 +21,7 @@ abstract class GameActivity<T>(fps: Long): AppCompatActivity() {
             transit(system.transition as T)
         }
         system.update()
-        view.postInvalidate()
-    }
-
-    override fun setContentView(view: View) {
-        super.setContentView(view)
-        this.view = view
+        mainView.postInvalidate()
     }
 
     override fun onResume() {

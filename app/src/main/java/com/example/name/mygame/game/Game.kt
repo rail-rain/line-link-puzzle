@@ -17,10 +17,10 @@ class Game : GameActivity<Transition>(fps = 30) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val driver = Driver(this, system)
-        val view = View(this, driver)
+        mainView = View(this, driver)
         val inputProcessor = InputProcessor(driver)
-        view.setOnTouchListener(inputProcessor)
-        setContentView(view)
+        mainView.setOnTouchListener(inputProcessor)
+        setContentView(mainView)
     }
 
     override fun transit(transition: Transition) {
