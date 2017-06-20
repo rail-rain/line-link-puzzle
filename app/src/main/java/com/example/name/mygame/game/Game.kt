@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.example.name.mygame.R
-import com.example.name.mygame.game.ui.GameView
+import com.example.name.mygame.game.view.GameView
 import com.example.name.mygame.game.util.GameActivity
 import com.example.name.mygame.game.viewmodel.InputProcessor
 import com.example.name.mygame.game.viewmodel.Driver

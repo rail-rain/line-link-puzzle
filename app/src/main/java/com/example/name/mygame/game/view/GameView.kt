@@ -1,4 +1,4 @@
-package com.example.name.mygame.game.ui
+package com.example.name.mygame.game.view
 
 import android.view.View
 import com.example.name.mygame.R

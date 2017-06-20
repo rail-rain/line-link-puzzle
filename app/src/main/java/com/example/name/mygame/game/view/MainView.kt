@@ -1,4 +1,4 @@
-package com.example.name.mygame.game.ui
+package com.example.name.mygame.game.view
 
 import android.content.Context
 import android.graphics.*
