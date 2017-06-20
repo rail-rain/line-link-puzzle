@@ -24,14 +24,22 @@ abstract class GameActivity<T>(fps: Long): AppCompatActivity() {
         mainView.postInvalidate()
     }
 
+    fun resume() {
+        future = executor.scheduleAtFixedRate({ this.update() }, 0, period, TimeUnit.MILLISECONDS)
+    }
+
+    fun pause() {
+        future!!.cancel(true)
+    }
+
     override fun onResume() {
         super.onResume()
-        future = executor.scheduleAtFixedRate({ this.update() }, 0, period, TimeUnit.MILLISECONDS)
+        resume()
     }
 
     override fun onPause() {
         super.onPause()
-        future!!.cancel(true)
+        pause()
     }
 
     override fun onDestroy() {
