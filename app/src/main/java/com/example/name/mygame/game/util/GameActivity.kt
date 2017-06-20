@@ -8,21 +8,22 @@ import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
-abstract class GameActivity<T>(fps: Long): AppCompatActivity() {
+abstract class GameActivity(fps: Long): AppCompatActivity() {
     private val executor = Executors.newSingleThreadScheduledExecutor()
     private var future: ScheduledFuture<*>? = null
     private val period = 1000 / fps
 
     protected abstract val mainView: View
     protected abstract val pauseMenu: View
-    protected abstract val system: System<T>
+    protected abstract val system: System
 
-    protected abstract fun transit(transition: T)
+    abstract fun<T> end(result: T)
+
+    open fun quit() {
+        finish()
+    }
 
     fun update() {
-        if (system.transition != null) {
-            transit(system.transition as T)
-        }
         system.update()
         mainView.postInvalidate()
     }
