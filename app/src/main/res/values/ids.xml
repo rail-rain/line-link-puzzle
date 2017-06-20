@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main_view" type="id"/>
+    <item name="pause_menu" type="id"/>
+    <item name="resume" type="id"/>
+    <item name="quit" type="id"/>
+</resources>
