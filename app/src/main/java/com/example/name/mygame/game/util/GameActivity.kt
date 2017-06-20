@@ -11,7 +11,7 @@ abstract class GameActivity<T>(fps: Long): AppCompatActivity() {
     private var future: ScheduledFuture<*>? = null
     private val period = 1000 / fps
 
-    protected lateinit var mainView: View
+    protected abstract val mainView: View
     protected abstract val system: System<T>
 
     protected abstract fun transit(transition: T)
