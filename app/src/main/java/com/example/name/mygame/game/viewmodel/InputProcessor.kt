@@ -1,11 +1,10 @@
-package com.example.name.mygame.game.ui
+package com.example.name.mygame.game.viewmodel
 
 import android.app.Activity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import com.example.name.mygame.R
-import com.example.name.mygame.game.viewmodel.Actions
 import org.jetbrains.anko.find
 
 class InputProcessor(activity: Activity, private val dispatcher: Actions): View.OnTouchListener, View.OnClickListener {
