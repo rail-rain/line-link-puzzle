@@ -7,15 +7,15 @@ abstract class System(gameActivity: GameActivity) {
 
     abstract fun update()
 
-    fun<T> transEnd(result: T) {
+    fun<T> end(result: T) {
         transmitter.get()?.end(result)
     }
 
-    fun transQuit() {
+    fun quit() {
         transmitter.get()?.quit()
     }
 
-    fun transResume() {
+    fun resume() {
         transmitter.get()?.resume()
     }
 }
