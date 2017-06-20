@@ -1,28 +1,28 @@
 package com.example.name.mygame.game.viewmodel
 
-import android.content.Context
 import com.example.name.mygame.game.model.GameSystem
 import com.example.name.mygame.game.model.TypeOfPiece
+import com.example.name.mygame.game.util.GameActivity
 
-class Driver(context: Context, val system: GameSystem): Actions, State {
-    private val scale = context.resources.displayMetrics.density
+class Driver(gameActivity: GameActivity): GameSystem(gameActivity), Actions, State {
+    private val scale = gameActivity.resources.displayMetrics.density
 
     override fun selectPiece(selectedX: Float, selectedY: Float) {
-        system.selectPiece(selectedX / scale / 48, selectedY / scale / 48)
+        super.selectPiece(selectedX / scale / 48, selectedY / scale / 48)
     }
 
     override fun endSelectingPieces() {
-        system.endSelectingPieces()
+        super.endSelectingPieces()
     }
 
-    override fun getScore() = system.getScore().toString()
-    override fun getCount() = system.getCount().toString()
+    override fun getScore() = score.current.toString()
+    override fun getCount() = counter.count.toString()
 
-    override fun getPieces() = system.getPieces().map {
+    override fun getPieces() = gameSpace.pieces.map {
         Piece(it.position.x * scale * 48, it.position.y * scale * 48, it.userData as TypeOfPiece)
     }
 
-    override fun getSelectedPieces() = system.getSelectedPieces().map {
+    override fun getSelectedPieces() = gameSpace.selectedPieces.map {
         Piece(it.position.x * scale * 48, it.position.y * scale * 48, it.userData as TypeOfPiece)
     }
 }
