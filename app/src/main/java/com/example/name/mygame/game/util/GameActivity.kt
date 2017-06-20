@@ -29,7 +29,7 @@ abstract class GameActivity(fps: Long): AppCompatActivity() {
     }
 
     fun resume() {
-        future = executor.scheduleAtFixedRate({ this.update() }, 0, period, TimeUnit.MILLISECONDS)
+        future = executor.scheduleAtFixedRate(this::update, 0, period, TimeUnit.MILLISECONDS)
         pauseMenu.visibility = View.INVISIBLE
     }
 
