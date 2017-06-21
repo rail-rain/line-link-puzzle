@@ -26,8 +26,6 @@ class GameUI : AnkoComponent<Game> {
             addView(mainView)
 
             pauseView = verticalLayout {
-                visibility = View.INVISIBLE
-
                 button("resume") {
                     onClick { dispatcher.resume() }
                 }
