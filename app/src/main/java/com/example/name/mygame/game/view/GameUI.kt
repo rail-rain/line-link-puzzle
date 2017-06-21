@@ -8,14 +8,15 @@ import org.jetbrains.anko.sdk25.listeners.onClick
 
 class GameUI : AnkoComponent<Game> {
 
+    lateinit var mainView: View
+    lateinit var pauseView: View
+
     override fun createView(ui: AnkoContext<Game>) = with(ui) {
         frameLayout {
-            val mainView = MainView(ctx, owner.system)
-            mainView.id = R.id.main_view
+            mainView = MainView(ctx, owner.system)
             addView(mainView)
 
-            verticalLayout {
-                id = R.id.pause_menu
+            pauseView = verticalLayout {
                 visibility = View.INVISIBLE
 
                 button("resume") {

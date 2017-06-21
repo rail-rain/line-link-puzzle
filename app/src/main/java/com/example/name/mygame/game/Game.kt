@@ -3,13 +3,10 @@ package com.example.name.mygame.game
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import com.example.name.mygame.R
-import com.example.name.mygame.game.view.GameView
+import com.example.name.mygame.game.view.GameUI
 import com.example.name.mygame.game.util.GameActivity
 import com.example.name.mygame.game.viewmodel.InputProcessor
 import com.example.name.mygame.game.viewmodel.Driver
-import org.jetbrains.anko.find
 import org.jetbrains.anko.setContentView
 
 class Game : GameActivity(fps = 30) {
@@ -17,12 +14,14 @@ class Game : GameActivity(fps = 30) {
         const val SCORE = "s"
     }
     override public val system by lazy { Driver(this) }
-    override val mainView by lazy { find<View>(R.id.main_view) }
-    override val pauseMenu by lazy { find<View>(R.id.pause_menu) }
+    override val mainView by lazy { ui.mainView }
+    override val pauseMenu by lazy { ui.pauseView }
+
+    private val ui = GameUI()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GameView().setContentView(this)
+        ui.setContentView(this)
         InputProcessor(this, system)
     }
 
