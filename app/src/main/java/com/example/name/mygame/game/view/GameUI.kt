@@ -2,10 +2,13 @@ package com.example.name.mygame.game.view
 
 import android.view.MotionEvent
 import android.view.View
-import com.example.name.mygame.R
+import android.view.ViewManager
 import com.example.name.mygame.game.Game
+import com.example.name.mygame.game.viewmodel.State
 import org.jetbrains.anko.*
+import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.sdk25.listeners.onClick
+import org.jetbrains.anko.sdk25.listeners.onTouch
 
 class GameUI : AnkoComponent<Game> {
 
@@ -15,15 +18,15 @@ class GameUI : AnkoComponent<Game> {
     override fun createView(ui: AnkoContext<Game>) = with(ui) {
         val dispatcher = owner.system
         frameLayout {
-            mainView = MainView(ctx, owner.system)
-            mainView.setOnTouchListener { _, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_MOVE -> dispatcher.selectPiece(event.x, event.y)
-                    MotionEvent.ACTION_UP -> dispatcher.endSelectingPieces()
+            mainView = mainView(owner.system) {
+                onTouch { _, event ->
+                    when (event.action) {
+                        MotionEvent.ACTION_MOVE -> dispatcher.selectPiece(event.x, event.y)
+                        MotionEvent.ACTION_UP -> dispatcher.endSelectingPieces()
+                    }
+                    true
                 }
-                true
             }
-            addView(mainView)
 
             pauseView = verticalLayout {
                 button("resume") {
@@ -35,4 +38,7 @@ class GameUI : AnkoComponent<Game> {
             }
         }
     }
+
+    inline fun ViewManager.mainView(state: State, init: MainView.() -> Unit)
+            = ankoView({ MainView(it, state) }, 0, init)
 }
