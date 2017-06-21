@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.example.name.mygame.game.view.GameUI
 import com.example.name.mygame.game.util.GameActivity
-import com.example.name.mygame.game.viewmodel.InputProcessor
 import com.example.name.mygame.game.viewmodel.Driver
 import org.jetbrains.anko.setContentView
 
@@ -22,7 +21,6 @@ class Game : GameActivity(fps = 30) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ui.setContentView(this)
-        InputProcessor(this, system)
     }
 
     override fun<T> end(result: T) {
