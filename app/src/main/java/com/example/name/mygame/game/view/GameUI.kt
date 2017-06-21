@@ -4,8 +4,9 @@ import android.view.View
 import com.example.name.mygame.R
 import com.example.name.mygame.game.Game
 import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.listeners.onClick
 
-class GameView: AnkoComponent<Game> {
+class GameUI : AnkoComponent<Game> {
 
     override fun createView(ui: AnkoContext<Game>) = with(ui) {
         frameLayout {
@@ -18,10 +19,10 @@ class GameView: AnkoComponent<Game> {
                 visibility = View.INVISIBLE
 
                 button("resume") {
-                    id = R.id.resume
+                    onClick { owner.system.resume() }
                 }
                 button("quit") {
-                    id = R.id.quit
+                    onClick { owner.system.quit() }
                 }
             }
         }
