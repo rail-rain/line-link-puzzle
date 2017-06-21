@@ -12,6 +12,7 @@ class GameUI : AnkoComponent<Game> {
     lateinit var pauseView: View
 
     override fun createView(ui: AnkoContext<Game>) = with(ui) {
+        val dispatcher = owner.system
         frameLayout {
             mainView = MainView(ctx, owner.system)
             addView(mainView)
@@ -20,10 +21,10 @@ class GameUI : AnkoComponent<Game> {
                 visibility = View.INVISIBLE
 
                 button("resume") {
-                    onClick { owner.system.resume() }
+                    onClick { dispatcher.resume() }
                 }
                 button("quit") {
-                    onClick { owner.system.quit() }
+                    onClick { dispatcher.quit() }
                 }
             }
         }
