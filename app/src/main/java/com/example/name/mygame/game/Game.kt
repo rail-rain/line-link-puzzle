@@ -11,8 +11,9 @@ import org.jetbrains.anko.setContentView
 class Game : GameActivity(fps = 30) {
     companion object {
         const val SCORE = "s"
+        const val HIGH_SCORE = "h"
     }
-    override public val system by lazy { Driver(this) }
+    override public val system by lazy { Driver(this, getHighScore()) }
     override val mainView by lazy { ui.mainView }
     override val pauseMenu by lazy { ui.pauseView }
 
@@ -22,6 +23,8 @@ class Game : GameActivity(fps = 30) {
         super.onCreate(savedInstanceState)
         ui.setContentView(this)
     }
+
+    fun getHighScore() = intent.getIntExtra(HIGH_SCORE, 0)
 
     override fun<T> end(result: T) {
         val intent = Intent()

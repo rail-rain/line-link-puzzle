@@ -4,7 +4,7 @@ import com.example.name.mygame.game.model.GameSystem
 import com.example.name.mygame.game.model.TypeOfPiece
 import com.example.name.mygame.game.util.GameActivity
 
-class Driver(gameActivity: GameActivity): GameSystem(gameActivity), Actions, State {
+class Driver(gameActivity: GameActivity, val highScore: Int): GameSystem(gameActivity), Actions, State {
     private val scale = gameActivity.resources.displayMetrics.density
 
     override fun selectPiece(selectedX: Float, selectedY: Float) {
@@ -16,6 +16,7 @@ class Driver(gameActivity: GameActivity): GameSystem(gameActivity), Actions, Sta
     }
 
     override fun getScore() = score.current.toString()
+    override fun getHighScore() = highScore.toString()
     override fun getCount() = counter.count.toString()
 
     override fun getPieces() = gameSpace.pieces.map {

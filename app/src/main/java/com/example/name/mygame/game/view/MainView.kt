@@ -45,6 +45,7 @@ class MainView(context: Context, val state: State): View(context) {
         path.rewind()
         paint.textSize = score_size
         canvas.drawText(state.getScore(), canvas.width * 0.9f, 100f, paint)
+        canvas.drawText(state.getHighScore(), canvas.width * 0.9f, 200f, paint)
         canvas.drawText(state.getCount(), canvas.width * 0.2f, 100f, paint)
     }
 }
